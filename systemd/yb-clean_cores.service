@@ -1,0 +1,14 @@
+[Unit]
+Description=Yugabyte clean cores
+Wants=yb-clean_cores.timer
+
+[Service]
+User=yugabyte
+Group=yugabyte
+Type=oneshot
+WorkingDirectory=/home/yugabyte/bin
+ExecStart=/bin/sh /home/yugabyte/bin/clean_cores.sh
+
+[Install]
+WantedBy=multi-user.target
+

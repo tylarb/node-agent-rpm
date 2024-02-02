@@ -1,0 +1,14 @@
+[Unit]
+Description=Yugabyte collect metrics
+Wants=yb-collect_metrics.timer
+
+[Service]
+User=yugabyte
+Group=yugabyte
+Type=oneshot
+WorkingDirectory=/home/yugabyte/bin
+ExecStart=/bin/bash /home/yugabyte/bin/collect_metrics_wrapper.sh
+
+[Install]
+WantedBy=multi-user.target
+

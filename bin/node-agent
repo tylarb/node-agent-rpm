@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+echo "node agent would have started, if this were real!"

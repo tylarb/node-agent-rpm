@@ -1,0 +1,36 @@
+[Unit]
+Description=Yugabyte Controller
+Requires=network-online.target
+After=network.target network-online.target multi-user.target
+StartLimitInterval=100
+StartLimitBurst=10
+
+[Path]
+PathExists=/home/yugabyte/controller/bin/yb-controller-server
+PathExists=/home/yugabyte/controller/conf/server.conf
+
+[Service]
+User=yugabyte
+Group=yugabyte
+# Start
+ExecStart=/home/yugabyte/controller/bin/yb-controller-server \
+    --flagfile /home/yugabyte/controller/conf/server.conf
+Restart=always
+RestartSec=5
+# Stop -> SIGTERM - 10s - SIGKILL (if not stopped) [matches existing cron behavior]
+KillMode=control-group
+TimeoutStopFailureMode=terminate
+KillSignal=SIGTERM
+TimeoutStopSec=10
+FinalKillSignal=SIGKILL
+# Logs
+StandardOutput=syslog
+StandardError=syslog
+# ulimit
+LimitCORE=infinity
+LimitNOFILE=1048576
+LimitNPROC=12000
+
+[Install]
+WantedBy=default.target
+

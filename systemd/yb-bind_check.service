@@ -1,0 +1,28 @@
+[Unit]
+Description=Yugabyte IP bind check
+Requires=network-online.target
+After=network.target network-online.target multi-user.target
+Before=yb-controller.service yb-tserver.service yb-master.service yb-collect_metrics.timer
+StartLimitInterval=100
+StartLimitBurst=10
+
+[Path]
+PathExists=/home/yugabyte/controller/bin/yb-controller-server
+PathExists=/home/yugabyte/controller/conf/server.conf
+
+[Service]
+# Start
+ExecStart=/home/yugabyte/controller/bin/yb-controller-server \
+    --flagfile /home/yugabyte/controller/conf/server.conf \
+    --only_bind --logtostderr
+Type=oneshot
+KillMode=control-group
+KillSignal=SIGTERM
+TimeoutStopSec=10
+# Logs
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=default.target
+
