@@ -1,0 +1,4 @@
+all: rpm
+
+
+rpm:
