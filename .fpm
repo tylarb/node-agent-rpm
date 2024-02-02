@@ -5,6 +5,7 @@
 --depends rsync
 --description "Yugabyte Node Agent"
 --rpm-tag 'Requires(pre): /usr/sbin/useradd /usr/sbin/groupadd'
+--rpm-tag 'Prefix: /usr'
 --before-install before_install.sh
 --after-install after_install.sh
 --before-upgrade before_upgrade.sh
